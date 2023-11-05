@@ -1,6 +1,5 @@
 export function App() {
-  return (
-    <>
-    </>
-  )
+    return (
+        <h1>teste</h1>
+    );
 }
