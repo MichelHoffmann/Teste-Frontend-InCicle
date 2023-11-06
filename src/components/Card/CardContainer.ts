@@ -44,7 +44,27 @@ box-shadow: 0px 2px 8px -3px rgba(0,0,0,0.51);
                 font-weight: bold;
                 font-size: 0.6rem;
                 color: #ffffff;
+            }
+            
+            .red {
+                background-color: #EE8686;
+            }
+
+            .blue {
                 background-color: #3489B1;
+            }
+            
+            .gray {
+                background-color: #707070;
+            }
+
+            .confirmations {
+                color: #3489B1;
+                text-decoration: underline;
+            }
+
+            .confirmations:hover {
+                cursor: pointer;
             }
 
             p {

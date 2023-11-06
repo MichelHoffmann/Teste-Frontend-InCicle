@@ -1,24 +1,50 @@
+import cruz from '../../../public/cruz-icon.svg'
 import { Card } from "../Card";
 import { MainContainer } from "./Main.styles";
-import qd1 from '../../../public/qd1.svg'
-import qd2 from '../../../public/qd2.svg'
-import qd3 from '../../../public/qd3.svg'
-import qd4 from '../../../public/qd4.svg'
-import planet from '../../../public/planet-icon.svg'
-import dots from '../../../public/dots-icon-white.svg'
-import cruz from '../../../public/cruz-icon.svg'
+import { useEffect, useState } from "react";
+import { Quadro } from "../Quadro";
+
+interface CardItem {
+    id: number
+    title: string
+    type: 'event' | 'release' | 'publication'
+    description: string
+    info: {
+        date: string
+        place: string
+    }
+    file: {
+        url: string
+    }
+    invited_people: []
+}
+
+
+interface QuadroItem {
+    title: string,
+    resume_files: [
+        file: string
+    ]
+}
 
 export function Main() {
+    const [cards, setCards] = useState([])
+    const [quadros, setquadros] = useState([])
+
     function FechaMensagem() {
         const card = document.querySelector('.message')
-        console.log(card)
         card?.classList.add('hidden')
 
         setTimeout(() => {
-        card?.classList.add('none')
-      }, 2000);
+            card?.classList.add('none')
+        }, 2000);
     }
-    return(
+
+    useEffect(() => {
+        fetch('./data.json').then(res => res.json()).then(res => setCards(res.data))
+    }, [])
+ 
+    return (
         <MainContainer>
             <section>
                 <header>
@@ -33,12 +59,21 @@ export function Main() {
                         <button>CRIAR <img src={cruz} alt="" /></button>
                     </div>
                 </header>
-                <Card />
-                <Card />
-                <Card />
-                <Card />
-                <Card />
-                <Card />
+                {cards.map((card: CardItem, index: number) => {
+                    return (
+                        <Card
+                            key={index}
+                            id={card.id}
+                            title={card.title}
+                            type={card.type}
+                            description={card.description}
+                            date={card.info.date}
+                            url={card.file.url}
+                            place={card.info.place}
+                            invited_people={card.invited_people}
+                        />
+                    )
+                })}
             </section>
             <aside>
                 <article className="message">
@@ -49,53 +84,9 @@ export function Main() {
 
                 <article className="quadros">
                     <h2>Quadros de Gestão à Vista</h2>
-                    <div className="quadro">
-                        <div className="header">
-                            <h3>Demonstrativo Comercial</h3>
-                            <div>
-                                <img src={planet} alt="" />
-                                <img src={dots} alt="" />
-                            </div>
-                        </div>
-                        <div className="images">
-                            <img src={qd1} alt="" />
-                            <img src={qd2} alt="" />
-                            <img src={qd3} alt="" />
-                            <img src={qd4} alt="" />
-                        </div>
-                    </div>
-
-                    <div className="quadro">
-                        <div className="header">
-                            <h3>Demonstrativo Comercial</h3>
-                            <div>
-                                <img src={planet} alt="" />
-                                <img src={dots} alt="" />
-                            </div>
-                        </div>
-                        <div className="images">
-                            <img src={qd1} alt="" />
-                            <img src={qd2} alt="" />
-                            <img src={qd3} alt="" />
-                            <img src={qd4} alt="" />
-                        </div>
-                    </div>
-                    
-                    <div className="quadro">
-                        <div className="header">
-                            <h3>Demonstrativo Comercial</h3>
-                            <div>
-                                <img src={planet} alt="" />
-                                <img src={dots} alt="" />
-                            </div>
-                        </div>
-                        <div className="images">
-                            <img src={qd1} alt="" />
-                            <img src={qd2} alt="" />
-                            <img src={qd3} alt="" />
-                            <img src={qd4} alt="" />
-                        </div>
-                    </div>
+                    <Quadro />
+                    <Quadro />
+                    <Quadro />
                 </article>
             </aside>
         </MainContainer>
